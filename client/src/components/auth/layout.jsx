@@ -1,18 +1,82 @@
 import { Outlet } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+
+const messages = [
+  "Welcome to ECommerce Shopping",
+  "Discover the Latest Trends",
+  "Unbeatable Deals Await You",
+  "Shop Smart, Shop Secure",
+];
 
 function AuthLayout() {
+  const [msgIdx, setMsgIdx] = useState(0);
+  const timeoutRef = useRef();
+
+  useEffect(() => {
+    timeoutRef.current = setTimeout(() => {
+      setMsgIdx((idx) => (idx + 1) % messages.length);
+    }, 3000);
+    return () => clearTimeout(timeoutRef.current);
+  }, [msgIdx]);
+
   return (
     <div className="flex min-h-screen w-full">
-      <div className="hidden lg:flex items-center justify-center bg-black w-1/2 px-12">
-        <div className="max-w-md space-y-6 text-center text-primary-foreground">
-          <h1 className="text-4xl font-extrabold tracking-tight">
-            Welcome to ECommerce Shopping
+      <div className="hidden lg:flex items-center justify-center w-1/2 px-12 relative overflow-hidden">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 animate-gradient bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-90 transition-all duration-1000"></div>
+        {/* Animated SVG shapes */}
+        <svg className="absolute top-10 left-10 w-32 h-32 opacity-30 animate-float-slow" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="40" fill="#fff" fillOpacity="0.15" />
+        </svg>
+        <svg className="absolute bottom-10 right-10 w-24 h-24 opacity-20 animate-float" viewBox="0 0 100 100" fill="none">
+          <rect x="20" y="20" width="60" height="60" rx="20" fill="#fff" fillOpacity="0.12" />
+        </svg>
+        {/* Animated background pattern */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAzNGMwIDIuMjA5LTEuNzkxIDQtNCA0cy00LTEuNzkxLTQtNCAxLjc5MS00IDQtNCA0IDEuNzkxIDQgNHoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjEiLz48L2c+PC9zdmc+')] opacity-20"></div>
+        <div className="relative max-w-md space-y-6 text-center text-white select-none">
+          <h1 className="text-5xl font-extrabold tracking-tight mb-4 min-h-[120px] transition-all duration-700">
+            <span className="inline-block animate-fade-in-out">{messages[msgIdx]}</span>
           </h1>
+          <p className="text-lg text-white/80 transition-all duration-700">
+            {msgIdx === 0 && "Your one-stop destination for all your shopping needs. Sign in to explore our curated collection of products."}
+            {msgIdx === 1 && "Stay ahead with the newest arrivals and exclusive collections."}
+            {msgIdx === 2 && "Enjoy discounts, flash sales, and special offers every day!"}
+            {msgIdx === 3 && "Experience seamless, secure, and smart shopping with us."}
+          </p>
         </div>
       </div>
-      <div className="flex flex-1 items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+      <div className="flex flex-1 items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
         <Outlet />
       </div>
+      {/* Tailwind custom animations */}
+      <style>{`
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradientMove 8s ease-in-out infinite;
+        }
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+        .animate-float-slow {
+          animation: float 7s ease-in-out infinite;
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-20px); }
+        }
+        .animate-fade-in-out {
+          animation: fadeInOut 1.2s;
+        }
+        @keyframes fadeInOut {
+          0% { opacity: 0; transform: translateY(20px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
