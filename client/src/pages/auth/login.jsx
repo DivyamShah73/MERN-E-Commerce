@@ -38,11 +38,12 @@ function AuthLogin() {
         <p className="text-base text-gray-600 mb-4">
           Don't have an account?
           <Link
-            className="ml-2 inline-block rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 text-white px-4 py-1.5 font-semibold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200"
-            to="/auth/register"
-          >
-            Create an account
-          </Link>
+  className="ml-2 inline-block rounded-full bg-black text-white px-3 py-1 text-sm font-medium shadow-sm hover:scale-105 hover:shadow-md transition-all duration-200"
+  to="/auth/register"
+>
+  Create an account
+</Link>
+
         </p>
       </div>
       <div className="mt-8 bg-white/60 backdrop-blur-lg rounded-2xl shadow-2xl p-10 border border-white/40 animate-fade-in-up relative overflow-hidden">
