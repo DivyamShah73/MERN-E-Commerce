@@ -1,6 +1,9 @@
 # AI-Powered E-Commerce Platform
 
 A full-stack e-commerce platform with an integrated AI assistant that provides dynamic responses based on inventory and product information. Built with modern web technologies and best practices.
+![Screenshot 2025-05-10 204940](https://github.com/user-attachments/assets/60e0d5a5-985e-49cc-950a-80ea961fa3b3)
+
+<!-- Add screenshot of homepage with featured products and AI chat widget here -->
 
 ## Overview
 
@@ -66,6 +69,11 @@ This e-commerce platform combines a robust shopping experience with an intellige
 - Address management
 - PayPal integration for payments
 
+![Screenshot 2025-05-10 205939](https://github.com/user-attachments/assets/ca1b1dcd-5683-4674-aa2b-908c1592b030)
+
+
+<!-- Add screenshot of product listing and search interface here -->
+
 ### Admin Features
 - Admin dashboard
 - Product management (CRUD operations)
@@ -75,6 +83,10 @@ This e-commerce platform combines a robust shopping experience with an intellige
 - AI assistant configuration
 - Product embedding updates
 - Analytics and reporting
+![Screenshot 2025-05-10 205138](https://github.com/user-attachments/assets/1e8e6258-6f70-4ff8-a24a-6a181829928d)
+![Screenshot 2025-05-10 205804](https://github.com/user-attachments/assets/15fbbe14-247a-4a6f-af6e-a1f1ba590e0e)
+
+<!-- Add screenshot of admin dashboard with analytics here -->
 
 ### AI Assistant Features
 - Real-time chat interface
@@ -85,6 +97,10 @@ This e-commerce platform combines a robust shopping experience with an intellige
 - Dynamic response generation
 - Context-aware conversations
 
+![Screenshot 2025-05-10 205404](https://github.com/user-attachments/assets/c4c56490-2c7e-4337-9f6d-e280f429d48d)
+
+<!-- Add screenshot of AI chat interface with product recommendations here -->
+
 ## Authentication
 
 ### User Authentication
@@ -93,11 +109,12 @@ This e-commerce platform combines a robust shopping experience with an intellige
 3. Protected routes require authentication
 
 ### Admin Authentication
-1. Admin login with special credentials
+1. Admin login with special credentials (ID: divyamadmin@gmail.com Password: admin123)
 2. Access to admin dashboard and features
 3. Secure admin-only routes
 
-<!-- Add screenshot of login UI here -->
+![Screenshot 2025-05-10 205459](https://github.com/user-attachments/assets/438c3573-96f2-44ce-b61d-915a5cfa7a25)
+
 
 ## Setup Instructions
 
@@ -187,12 +204,15 @@ The AI assistant is integrated throughout the platform and can be accessed via t
 4. Provide product recommendations
 5. Answer inventory-related questions
 
+<!-- Add screenshot of AI assistant handling complex product queries here -->
+
 The assistant's knowledge base is automatically updated when:
 - New products are added
 - Product information is modified
 - Admin manually triggers an update
+![Screenshot 2025-05-10 205659](https://github.com/user-attachments/assets/dc21a6b2-2865-40aa-b223-cbc6f9fdad8a)
 
-<!-- Add screenshot of chat interface here -->
+<!-- Add screenshot of admin updating AI embeddings here -->
 
 ## Contributing
 
