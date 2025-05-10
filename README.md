@@ -208,4 +208,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Support
 
-For support, email [support@example.com] or open an issue in the repository. 
+For support, email divyamshah04@gmail.com or open an issue in the repository. 
