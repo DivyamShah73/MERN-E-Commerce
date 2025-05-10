@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const embeddingService = require('../services/embeddingService');
+const Product = require('../models/Product');
 
 // List available models
 router.get('/list-models', async (req, res) => {
@@ -107,13 +109,40 @@ router.post('/', async (req, res) => {
             });
         }
 
-        console.log('Sending request to Cohere API with message:', message);
-        console.log('Using API Key:', process.env.COHERE_API_KEY.substring(0, 5) + '...');
+        // Find relevant products based on the user's message
+        const similarProducts = await embeddingService.findSimilarProducts(message);
 
+        // Get total product count
+        const totalProducts = await Product.countDocuments();
+
+        // Create context from similar products
+        const context = similarProducts.map(product =>
+            `Product: ${product.metadata.title}\n` +
+            `Description: ${product.metadata.description}\n` +
+            `Category: ${product.metadata.category}\n` +
+            `Brand: ${product.metadata.brand}\n` +
+            `Price: $${product.metadata.price}\n` +
+            `Rating: ${product.metadata.averageReview}/5\n`
+        ).join('\n');
+
+        // Create a prompt that includes the context
+        const prompt = `You are a helpful e-commerce assistant. Use the following information to help answer the customer's question:
+
+Store Information:
+- Total number of products: ${totalProducts}
+
+Relevant Products:
+${context}
+
+Customer Question: ${message}
+
+Please provide a helpful response that incorporates relevant product information when appropriate. If the question is about the store in general (like total number of products), use the store information. If it's about specific products, use the relevant products information.`;
+
+        console.log('Sending request to Cohere API with context');
         const response = await axios.post(
             'https://api.cohere.ai/v1/chat',
             {
-                message: message,
+                message: prompt,
                 model: "command",
                 temperature: 0.7,
                 max_tokens: 300,
@@ -127,7 +156,7 @@ router.post('/', async (req, res) => {
             }
         );
 
-        console.log('Received response from Cohere API:', JSON.stringify(response.data, null, 2));
+        console.log('Received response from Cohere API');
 
         if (!response.data.text) {
             console.error('Unexpected response format from Cohere API:', response.data);
@@ -148,29 +177,51 @@ router.post('/', async (req, res) => {
             status: error.response?.status
         });
 
-        // Handle specific error cases
         if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
             return res.status(error.response.status).json({
                 success: false,
                 error: 'AI service error',
                 details: error.response.data
             });
         } else if (error.request) {
-            // The request was made but no response was received
             return res.status(503).json({
                 success: false,
                 error: 'AI service is not responding'
             });
         } else {
-            // Something happened in setting up the request that triggered an Error
             return res.status(500).json({
                 success: false,
                 error: 'Failed to process request',
                 details: error.message
             });
         }
+    }
+});
+
+// Update product embeddings
+router.post('/update-embeddings', async (req, res) => {
+    try {
+        if (!process.env.COHERE_API_KEY) {
+            return res.status(500).json({
+                success: false,
+                error: 'COHERE_API_KEY is not set in environment variables'
+            });
+        }
+
+        console.log('Starting product embeddings update...');
+        await embeddingService.updateProductEmbeddings();
+
+        res.json({
+            success: true,
+            message: 'Product embeddings updated successfully'
+        });
+    } catch (error) {
+        console.error('Update Embeddings Error:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to update embeddings',
+            details: error.message
+        });
     }
 });
 
